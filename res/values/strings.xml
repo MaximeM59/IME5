@@ -21,5 +21,6 @@
     <string name="title_activity_choix_seance">ChoixSéance</string>
     <string name="title_activity_seance">Séance</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_preference">PreferenceActivity</string>
 
 </resources>
