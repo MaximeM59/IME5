@@ -60,8 +60,7 @@ public final class R {
         public static final int activity_choix_seance=0x7f030000;
         public static final int activity_compte=0x7f030001;
         public static final int activity_login=0x7f030002;
-        public static final int activity_preference=0x7f030003;
-        public static final int activity_seance=0x7f030004;
+        public static final int activity_seance=0x7f030003;
     }
     public static final class menu {
         public static final int menu_principal=0x7f090000;
@@ -120,5 +119,6 @@ public final class R {
     }
     public static final class xml {
         public static final int preferences=0x7f040000;
+        public static final int preferences_headers=0x7f040001;
     }
 }
