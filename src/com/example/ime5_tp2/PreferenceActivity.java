@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 
 public class PreferenceActivity extends android.preference.PreferenceActivity {
@@ -13,6 +12,9 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.activity_preference);
+		
+
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new Prefs1Fragment()).commit();
 	}
 
 	@Override
@@ -27,7 +29,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
      */
     @Override
     public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.preferences_headers, target);
+        //loadHeadersFromResource(R.xml.preferences_headers, target);
     }
 
     /**
