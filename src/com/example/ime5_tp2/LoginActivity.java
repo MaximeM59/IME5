@@ -47,6 +47,7 @@ public class LoginActivity extends Activity {
 
 	@Override
 	protected void onResume() { //Appelé à chaque fois que l'écran se réaffiche
+		super.onResume();
 		//Tester la dispo du réseau et activer le bouton si il est dispo.
 		loginButton = (Button) findViewById(R.id.login_btnOK);
 		loginButton.setEnabled(gs.verifReseau());
