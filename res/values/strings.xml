@@ -22,5 +22,6 @@
     <string name="title_activity_seance">Séance</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_preference">PreferenceActivity</string>
+    <string name="title_activity_global_state">GlobalState</string>
 
 </resources>

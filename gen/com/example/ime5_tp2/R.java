@@ -63,8 +63,9 @@ public final class R {
         public static final int activity_seance=0x7f030003;
     }
     public static final class menu {
-        public static final int menu_principal=0x7f090000;
-        public static final int preference=0x7f090001;
+        public static final int global_state=0x7f090000;
+        public static final int menu_principal=0x7f090001;
+        public static final int preference=0x7f090002;
     }
     public static final class string {
         public static final int action_account=0x7f060002;
@@ -84,6 +85,7 @@ public final class R {
         public static final int seance=0x7f06000c;
         public static final int title_activity_choix_seance=0x7f060011;
         public static final int title_activity_compte=0x7f060010;
+        public static final int title_activity_global_state=0x7f060015;
         public static final int title_activity_preference=0x7f060014;
         public static final int title_activity_preferences=0x7f06000f;
         public static final int title_activity_seance=0x7f060012;
@@ -119,6 +121,5 @@ public final class R {
     }
     public static final class xml {
         public static final int preferences=0x7f040000;
-        public static final int preferences_headers=0x7f040001;
     }
 }

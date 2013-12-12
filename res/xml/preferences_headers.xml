@@ -1,8 +1,0 @@
-<preference-headers
-        xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <header android:fragment="com.example.ime5_tp2.PreferenceActivity$Prefs1Fragment"
-            android:title="Préférences"
-            android:summary="Liste des préférences de l'application" />
-    
-</preference-headers>
