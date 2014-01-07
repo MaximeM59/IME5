@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 public class LoginActivity extends Activity {
 	EditText login;
 	EditText password;
-	CheckBox RememberMe;
+	CheckBox rememberMe;
 	Button loginButton;
 	
 	GlobalState gs;
@@ -24,6 +25,39 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		loginButton = (Button) findViewById(R.id.login_btnOK); // ajout d'un listener = ajout d'une action lors du clic sur le bouton
+		loginButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				rememberMe = (CheckBox) findViewById(R.id.login_cbRemember);
+				login = (EditText) findViewById(R.id.login_edtLogin);
+				password = (EditText) findViewById(R.id.login_edtPasse);
+				
+				// Sauvegarde des préférences
+				SharedPreferences preferences_recuperees = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+				if(rememberMe.isChecked()){
+					SharedPreferences.Editor prefEditor = preferences_recuperees.edit();
+					
+					prefEditor.putString("login", login.getText().toString());
+					prefEditor.putString("passe", password.getText().toString());
+					prefEditor.putBoolean("remember", rememberMe.isChecked());
+					
+					prefEditor.apply();
+				}
+				
+				// Requête
+				String loginText = login.getText().toString();
+				String loginPass = password.getText().toString();
+				
+				if(!loginText.equals(""))
+				{
+					String requestResult = gs.requete("login=" + loginText + "&passe=" + loginPass);
+					Toast t = Toast.makeText(getApplicationContext(),"Request: " + requestResult,Toast.LENGTH_SHORT); // toat = message temporaire
+					t.show();
+				}
+			}
+		});
 	}
 	
 	@Override
@@ -31,17 +65,20 @@ public class LoginActivity extends Activity {
 		super.onStart();
 		
 		gs = (GlobalState) getApplication();
-		//gs = new GlobalState();
 		gs.alerter("Creation client");
 		gs.createClient();
 		
-		RememberMe = (CheckBox) findViewById(R.id.login_cbRemember);
+		rememberMe = (CheckBox) findViewById(R.id.login_cbRemember);
 		login = (EditText) findViewById(R.id.login_edtLogin);
 		password = (EditText) findViewById(R.id.login_edtPasse);
-		if(RememberMe.isChecked()){
-			SharedPreferences preferences_recuperees = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		
+		SharedPreferences preferences_recuperees = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		Boolean autoLoad = preferences_recuperees.getBoolean("autoload", false);
+		
+		if(autoLoad){
 			login.setText(preferences_recuperees.getString("login",""));
 			password.setText(preferences_recuperees.getString("passe",""));
+			rememberMe.setChecked(preferences_recuperees.getBoolean("remember", false));
 		}
 	}
 

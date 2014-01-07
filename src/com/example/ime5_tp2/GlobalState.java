@@ -16,7 +16,9 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 public class GlobalState extends Application {
@@ -77,30 +79,30 @@ public class GlobalState extends Application {
 		SharedPreferences preferences_recuperees = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		String urlData = preferences_recuperees.getString("urlData", "http://localhost/");
 		
-		
     	if (qs != null)
     	{    		    		
-    		// l'url à utiliser correspond à celle définie dans les préférences
-		// A COMPLETER
-    		
     		HttpGet req = new HttpGet(urlData + "?" + qs);
     		HttpResponse reponse;
     		HttpEntity corpsReponse;
     		InputStream is; 
     		try {
-				reponse = client.execute(req);		// exécuter requête
+    			RequestTask reqTask = (RequestTask) new RequestTask();
+    			reqTask.execute(req);
+    			
+    			// On attends que la requête soit terminée
+    			while(!reqTask.requestDone) {}
+    			
+				reponse = reqTask.reponse;		// exécuter requête
 				corpsReponse = reponse.getEntity();	// récupère le résultat
 				is = corpsReponse.getContent();
 				String txtReponse = convertStreamToString(is);
 				
 				return txtReponse;				
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+    		catch (Exception e) {
+    			Log.e("Request error", e.getClass().getName());
+    			e.printStackTrace();
+    		}
     	}
     	
  
@@ -126,4 +128,24 @@ public class GlobalState extends Application {
 			}
 
 		}
+	 
+	 private class RequestTask extends AsyncTask<HttpGet, Void, String> {
+		 public HttpResponse reponse = null;
+		 public Boolean requestDone = false;
+		 
+		@Override
+		protected String doInBackground(HttpGet... arg0) {
+			try {
+				Log.i("Request","start");
+				reponse = client.execute(arg0[0]);		// exécuter requête
+				Log.i("Request","end");
+			}
+    		catch (Exception e) {
+    			Log.e("Request error", e.getClass().getName());
+    			e.printStackTrace();
+    		}
+			requestDone = true;
+			return "ok";
+		}
+	 }
 }
